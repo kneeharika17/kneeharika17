@@ -37,6 +37,7 @@ double rev=0, rem, orignal=x;
        return false;    
 }
 
+int romanToInt(char * s)
 {
     int t['X' + 1] = {
         ['I'] = 1,
