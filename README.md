@@ -57,3 +57,17 @@ int romanToInt(char * s)
     }
     return res;
 }
+
+char* prefix = strs[0]; // take the first string to be the longest possible prefix
+    int lengthcurrent = strlen(prefix); // only do this once for extra speed
+    for (int i = 1; i < strsSize; i++) {
+        char* string = strs[i];
+        for (int j = 0; j < lengthcurrent; j++) {
+            if (string[j] != prefix[j]) {
+                prefix[j] = '\0'; // Null terminater trick
+                lengthcurrent = j;
+            }
+        }
+    }
+    return prefix;
+}
