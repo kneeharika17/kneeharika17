@@ -289,3 +289,157 @@ struct ListNode* deleteDuplicates(struct ListNode* head) {
     }
     return head;
 }
+
+int climbStairs(int n) {
+   if (n == 1) return 1;
+
+    int dp[n + 1]; // Array to store results
+    dp[1] = 1;
+    dp[2] = 2;
+
+    for (int i = 3; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+
+    return dp[n];
+}
+
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n) {
+    if(n == 0)return;
+    int len1 = nums1Size;
+    int end_idx = len1-1;
+    while(n > 0 && m > 0){
+        if(nums2[n-1] >= nums1[m-1]){
+        nums1[end_idx] = nums2[n-1];
+        n--;
+        }else{
+            nums1[end_idx] = nums1[m-1];
+            m--;
+        }
+        end_idx--;
+    }
+    while (n > 0) {
+        nums1[end_idx] = nums2[n-1];
+        n--;
+        end_idx--;
+    }
+}
+
+int i=0;
+int arr[101]={0};
+void inorder(struct TreeNode* s)
+{
+    if(s!=NULL)
+    {
+        inorder(s->left);
+        arr[i++]=s->val;
+        inorder(s->right);
+    }
+}
+int* inorderTraversal(struct TreeNode* root, int* returnSize){
+    inorder(root);
+    int* ans=malloc(i*sizeof(int));
+    for(int j=0;j<i;j++) ans[j]=arr[j];
+    *(returnSize)=i;
+    i=0;
+    return ans;
+}
+
+bool isSameTree(struct TreeNode* p, struct TreeNode* q) {
+    if (p == NULL && q == NULL) return true;
+    if (p == NULL || q == NULL) return false;
+    if (p->val != q->val) return false;
+    return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+}
+
+bool isSymmetricHelp(struct TreeNode* left, struct TreeNode* right) {
+    if (left == NULL || right == NULL) {
+        return left == right;
+    }
+    if (left->val != right->val) {
+        return false;
+    }
+
+    return isSymmetricHelp(left->left, right->right) && isSymmetricHelp(left->right, right->left);
+}
+
+bool isSymmetric(struct TreeNode* root) {
+    return root == NULL || isSymmetricHelp(root->left, root->right);
+}
+
+int max(int a, int b) { return (a > b) ? a : b; }
+int depth(struct TreeNode* root) {
+    if(root==NULL)
+    {
+        return 0;
+    }
+    return 1+max(depth(root->left),depth(root->right));
+}
+int maxDepth(struct TreeNode* root) { return depth(root); }
+
+struct TreeNode* createNewNode(int val) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    newNode->val = val;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct TreeNode* res(int* nums, int l, int r) {
+    if (l > r)
+        return NULL;
+    int mid = l + (r - l) / 2; 
+    struct TreeNode* node = createNewNode(nums[mid]);
+    node->left = res(nums, l, mid - 1);
+    node->right = res(nums, mid + 1, r);
+    return node;
+}
+
+struct TreeNode* sortedArrayToBST(int* nums, int numsSize) {
+    return res(nums, 0, numsSize - 1);
+}
+
+int depth(struct TreeNode *root);
+
+bool isBalanced(struct TreeNode *root) {
+    if (root == NULL)
+        return true;
+        
+    return isBalanced(root->left) && 
+           isBalanced(root->right) &&
+           !(abs(depth(root->left) - depth(root->right)) > 1);
+}
+
+int depth(struct TreeNode *root) {
+    if (root == NULL)
+        return 0;
+        
+    return fmax(depth(root->left), depth(root->right)) + 1;
+}
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int minDepth(struct TreeNode* root){
+    int x,y;
+    if(root == NULL)
+        return 0;
+    else{
+    x=minDepth(root->left);
+    y=minDepth(root->right);
+    if ((x==0) ^ (y==0)) 
+    return (x>y?x:y)+1 ;
+    if(x > y)
+    return y + 1;
+    else
+    return x + 1;
+    }
+
+}
+
+
