@@ -126,3 +126,166 @@ struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2) {
 
     return head;
 }
+
+int removeDuplicates(int* nums, int numsSize) {
+   int c=1;
+  for(int i=0;i<numsSize;i++){
+    if( nums[i]!=nums[c-1]){
+        nums[c]=nums[i];
+        c++;
+    }
+  }
+  return c;
+} 
+
+int removeElement(int* a, int n, int val) {
+    int c=0,t;
+    for(int i=0;i<n;i++){
+        if(a[i]==val){
+            c++;
+        }
+        else{a[i-c]=a[i];}}
+        return (n-c);
+}
+
+int strStr(char* str, char* substr) {
+    int substr_len = 0;
+    while (substr[substr_len] != '\0') {
+        substr_len++;
+    }
+
+    int i, j;
+
+    for (i = 0; str[i] != '\0'; i++) {
+        for (j = 0; j < substr_len && str[i + j] == substr[j]; j++)
+            ;
+        if (j == substr_len) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+int searchInsert(int* nums, int numsSize, int target) {
+  int low = 0;
+    int high = numsSize - 1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (nums[mid] == target) {
+            return mid; 
+        }
+        if (nums[mid] < target) {
+            low = mid + 1;  
+        } else {
+            high = mid - 1; 
+        }
+    }
+    
+    return low;  
+}
+
+int lengthOfLastWord(char* s) {
+    int length=0,i,wordcounter=0;
+    for(i=0;s[i]!='\0';i++)
+    {
+        length++;
+    }
+    for(i=(length-1);s[i]==' ';i--)
+    {
+        if(s[i]==' ')
+        s[i]='\0';
+    }
+    for(i=0;s[i]!='\0';i++)
+    {
+        if(s[i]==' ')
+        {
+            wordcounter=0;
+            continue;
+        }
+        else
+        {
+            wordcounter++;
+        }
+    }
+    return wordcounter;
+}
+
+int* plusOne(int* digits, int digitsSize, int* returnSize) {
+  *returnSize = digitsSize;
+    int *plusOne = malloc(digitsSize * sizeof(int));
+    if (plusOne == NULL)
+        return (NULL);
+    for (int i = 0; i < digitsSize; i++)
+        plusOne[i] = digits[i];
+    
+    plusOne[digitsSize - 1]++;
+    for (int i = digitsSize - 1; i - 1 >= 0; i--)
+        if (plusOne[i] == 10) {
+            plusOne[i] = 0;
+            plusOne[i - 1]++;
+        }
+
+    if (plusOne[0] == 10) {
+        (*returnSize)++;
+        plusOne = realloc(plusOne, *returnSize * sizeof(int));
+        if (plusOne == NULL)
+            return (NULL);
+        memmove(plusOne + 1, plusOne, digitsSize * sizeof(int));
+        plusOne[0] = 1;
+        plusOne[1] = 0;
+    }
+    return (plusOne);  
+}
+
+char * addBinary(char * a, char * b){
+    int sizeA = strlen(a);
+    int sizeB = strlen(b);
+    int sizeOutput = (sizeA > sizeB ? sizeA : sizeB) + 1;
+    char * output = (char *)malloc(sizeOutput + 1);
+    int sum = 0;
+    
+    output[sizeOutput] = '\0';
+    
+    while(sizeA > 0 || sizeB > 0 || sum > 0) {
+        
+        if(sizeA > 0) {
+            sum += a[--sizeA] - '0';
+        }
+        if(sizeB > 0) {
+            sum += b[--sizeB] - '0';
+        }
+        output[--sizeOutput] = sum % 2 + '0';
+        sum /= 2;
+    }
+    return output + sizeOutput;   
+}
+
+int mySqrt(int x) {
+  if(x==0||x==1){
+        return x;
+    }
+    for(long long int i=1;i<=x;i++){
+        if(i*i>x){
+            return i-1;
+        }
+
+    }
+return 0;  
+}
+
+struct ListNode* deleteDuplicates(struct ListNode* head) {
+    struct ListNode* temp=head;
+    while (temp&&temp->next)
+    {
+        if (temp->next->val==temp->val)
+        {
+            temp->next=temp->next->next;
+            continue;
+        }
+        temp=temp->next;
+    }
+    return head;
+}
