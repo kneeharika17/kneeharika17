@@ -442,4 +442,89 @@ int minDepth(struct TreeNode* root){
 
 }
 
+bool hasPathSum(struct TreeNode* root, int targetSum) {
+    if (!root)
+        return false;
+
+    if (!root->left && !root->right)
+        return root->val == targetSum;
+
+    targetSum -= root->val;
+    return hasPathSum(root->left, targetSum) || hasPathSum(root->right, targetSum);
+}
+
+int** generate(int numRows, int* returnSize, int** returnColumnSizes){
+    *returnSize = numRows;
+    int **output = calloc(1, sizeof(int *[numRows]));
+    *returnColumnSizes = calloc(1, sizeof(int [numRows]));
+    
+    //Allocate memory for the whole triangle
+    for (int i=0; i<numRows; i++) {
+        (*returnColumnSizes)[i] = i + 1;
+        output[i] = calloc(1, sizeof(int [i + 1]));
+    }
+    
+    //the first row will always be 1
+    output[0][0] = 1;
+    
+    for (int i=1; i<numRows; i++) {
+        output[i][0] = 1;
+        for (int j=1; j<i; j++) {
+            output[i][j] = output[i-1][j-1] + output[i-1][j];
+        }
+        output[i][i] = 1;
+    }
+    return output;
+}
+
+int maxProfit(int* prices, int pricesSize) {
+    // If we are selling on one day then the buying rate should be the minimum
+    int min = INT_MAX;
+    int ans = 0;
+
+    for (int i = 1; i < pricesSize; i++) {
+        min = (min < prices[i - 1]) ? min : prices[i - 1];
+        int cpro = prices[i] - min;
+        ans = (ans > cpro) ? ans : cpro;
+    }
+
+    return ans;
+}
+int isAlphanum(char c){
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'); 
+}
+
+int convertAlphaLower(char c){
+    return (c >= 'A' && c <= 'Z') ? c + 32 : c;
+}
+
+int isPalindrome(char* s) {
+    int l, r;
+
+    r = strlen(s) - 1;
+
+    l = 0;
+    while (l < r){
+        if(isAlphanum(s[l])){
+
+            if(isAlphanum(s[r])){
+                
+                if (convertAlphaLower(s[l]) != convertAlphaLower(s[r])){
+
+                    return 0;
+                }
+
+                l++;
+                r--;
+            }
+            else 
+                r--;
+        }
+        else 
+            l++;
+    }
+
+    return (1);
+}
+
 
